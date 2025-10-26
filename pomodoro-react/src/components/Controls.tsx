@@ -1,7 +1,16 @@
-import React from "react";
+import { type ReactNode } from "react";
 
-const Controls = () => {
-  return <div>Controls</div>;
+interface Props {
+  children: ReactNode;
+  color: string;
+}
+
+const Controls = ({ children, color }: Props) => {
+  return (
+    <button className={"btn btn-" + color}>
+      {children}
+    </button>
+  );
 };
 
 export default Controls;
