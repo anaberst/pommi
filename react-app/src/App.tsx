@@ -28,6 +28,20 @@ const App = () => {
 
   const timerRef = useRef<CountdownApi | null>(null);
 
+  const timerRenderer = ({
+    minutes,
+    seconds,
+  }: {
+    minutes: number;
+    seconds: number;
+  }) => {
+    return (
+      <>
+        {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
+      </>
+    );
+  };
+
   const handleStart = () => {
     timerRef.current?.start();
     setIsRunning(true);
@@ -63,6 +77,7 @@ const App = () => {
         controlled={false}
         countdownRef={timerRef}
         date={timeLeft}
+        renderer={timerRenderer}
       />
 
       <div className="d-flex justify-content-center gap-3">
