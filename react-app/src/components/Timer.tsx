@@ -1,19 +1,21 @@
+import React from "react";
 import Countdown from "react-countdown";
+import { type CountdownApi } from "react-countdown";
 
 interface Props {
   autoStart: boolean;
   className: string;
+  countdownRef?: React.RefObject<CountdownApi | null>;
   controlled: boolean;
   minutes: number;
-  zeroPadTime: number;
 }
 
 const Timer = ({
   autoStart,
   className,
   controlled,
+  countdownRef,
   minutes,
-  zeroPadTime,
 }: Props) => {
   return (
     <div
@@ -29,7 +31,7 @@ const Timer = ({
         autoStart={autoStart}
         controlled={controlled}
         date={Date.now() + minutes * 60000}
-        zeroPadTime={zeroPadTime}
+        ref={countdownRef as React.Ref<Countdown>}
       />
     </div>
   );

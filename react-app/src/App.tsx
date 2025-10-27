@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useRef } from "react";
+import { type CountdownApi } from "react-countdown";
 import Controls from "./components/Controls";
 import Timer from "./components/Timer";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -21,20 +23,24 @@ const App = () => {
 
   const [isRunning, setIsRunning] = useState(false);
   const [timeLeft, setTimeLeft] = useState(25);
-  const [isRestartable, setIsRestartable] = useState(false);
+
+  const timerRef = useRef<CountdownApi | null>(null);
 
   const handleStart = () => {
     setIsRunning(true);
     setTimeLeft(25);
+    timerRef.current?.start();
   };
 
   const handlePause = () => {
     setIsRunning(false);
+    timerRef.current?.pause();
   };
 
   const handleRestart = () => {
     setIsRunning(false);
     setTimeLeft(25);
+    timerRef.current?.stop();
   };
 
   return (
@@ -49,9 +55,9 @@ const App = () => {
       <Timer
         autoStart={false}
         className="d-flex justify-content-center timer-display"
-        controlled={true}
+        controlled={false}
         minutes={25}
-        zeroPadTime={0}
+        countdownRef={timerRef}
       />
 
       <div className="d-flex justify-content-center gap-3">
