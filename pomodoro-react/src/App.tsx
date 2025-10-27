@@ -1,4 +1,5 @@
 import Controls from "./components/Controls";
+import Timer from "./components/Timer";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 const App = () => {
@@ -10,14 +11,18 @@ const App = () => {
       >
         Pomodoro Timer
       </h2>
+      <Timer
+        autoStart={false}
+        className="d-flex justify-content-center timer-display"
+        minutes={25}
+      />
       <div className="d-flex justify-content-center gap-3">
         <Controls color="success">
           <i className="bi bi-caret-right"></i>
           Start
         </Controls>
         <Controls color="light">
-          {" "}
-          <i className="bi bi-arrow-counterclockwise"></i> Restart{" "}
+          <i className="bi bi-arrow-counterclockwise"></i> Restart
         </Controls>
       </div>
     </>
