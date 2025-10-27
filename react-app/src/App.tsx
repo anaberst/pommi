@@ -21,26 +21,28 @@ const App = () => {
   const pauseIcon = "bi bi-pause";
   const restartIcon = "bi bi-arrow-counterclockwise";
 
+  const minutes = 25;
+  const endpoint = Date.now() + minutes * 60000;
+
   const [isRunning, setIsRunning] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(25);
+  const [timeLeft, setTimeLeft] = useState(endpoint);
 
   const timerRef = useRef<CountdownApi | null>(null);
 
   const handleStart = () => {
-    setIsRunning(true);
-    setTimeLeft(25);
     timerRef.current?.start();
+    setIsRunning(true);
   };
 
   const handlePause = () => {
-    setIsRunning(false);
     timerRef.current?.pause();
+    setIsRunning(false);
   };
 
   const handleRestart = () => {
-    setIsRunning(false);
-    setTimeLeft(25);
     timerRef.current?.stop();
+    setIsRunning(false);
+    setTimeLeft(Date.now() + minutes * 60000);
   };
 
   return (
@@ -56,8 +58,8 @@ const App = () => {
         autoStart={false}
         className="d-flex justify-content-center timer-display"
         controlled={false}
-        minutes={25}
         countdownRef={timerRef}
+        date={timeLeft}
       />
 
       <div className="d-flex justify-content-center gap-3">

@@ -7,7 +7,7 @@ interface Props {
   className: string;
   countdownRef?: React.RefObject<CountdownApi | null>;
   controlled: boolean;
-  minutes: number;
+  date: number;
 }
 
 const Timer = ({
@@ -15,7 +15,7 @@ const Timer = ({
   className,
   controlled,
   countdownRef,
-  minutes,
+  date
 }: Props) => {
   return (
     <div
@@ -30,7 +30,7 @@ const Timer = ({
       <Countdown
         autoStart={autoStart}
         controlled={controlled}
-        date={Date.now() + minutes * 60000}
+        date={date}
         ref={countdownRef as React.Ref<Countdown>}
       />
     </div>

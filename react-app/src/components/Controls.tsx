@@ -7,8 +7,12 @@ interface Props {
   onClick: () => void;
 }
 
-const Controls = ({ children, color, onClick = { onClick } }: Props) => {
-  return <button className={"text-nowrap btn btn-" + color}>{children}</button>;
+const Controls = ({ children, color, onClick }: Props) => {
+  return (
+    <button className={"text-nowrap btn btn-" + color} onClick={onClick}>
+      {children}
+    </button>
+  );
 };
 
 export default Controls;
