@@ -49,8 +49,9 @@ const App = () => {
       <Timer
         autoStart={false}
         className="d-flex justify-content-center timer-display"
-        controlled={false}
+        controlled={true}
         minutes={25}
+        zeroPadTime={0}
       />
 
       <div className="d-flex justify-content-center gap-3">

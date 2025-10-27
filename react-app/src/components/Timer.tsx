@@ -1,13 +1,20 @@
 import Countdown from "react-countdown";
 
 interface Props {
-  autoStart?: boolean;
+  autoStart: boolean;
   className: string;
-  controlled?: boolean;
+  controlled: boolean;
   minutes: number;
+  zeroPadTime: number;
 }
 
-const Timer = ({ autoStart, className, controlled, minutes }: Props) => {
+const Timer = ({
+  autoStart,
+  className,
+  controlled,
+  minutes,
+  zeroPadTime,
+}: Props) => {
   return (
     <div
       className={className}
@@ -22,6 +29,7 @@ const Timer = ({ autoStart, className, controlled, minutes }: Props) => {
         autoStart={autoStart}
         controlled={controlled}
         date={Date.now() + minutes * 60000}
+        zeroPadTime={zeroPadTime}
       />
     </div>
   );
