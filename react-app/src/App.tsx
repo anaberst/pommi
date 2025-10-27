@@ -6,12 +6,11 @@ import Timer from "./components/Timer";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 const App = () => {
-  // "success" | "info" | "light" | "danger" | "secondary";
-  // start | pause | restart | yes, I'm sure | go back
-
   const startColor = "success";
   const pauseColor = "info";
   const restartColor = "light";
+  // const confirmColor = "danger"; this triggers restart AND makes modal disappear
+  // const undoColor = "secondary"; this simply makes the modal disappear
 
   const startText = "Start";
   const pauseText = "Pause";
@@ -45,6 +44,10 @@ const App = () => {
     setTimeLeft(Date.now() + minutes * 60000);
   };
 
+  // add in modal confirmation pop-up
+  // add in disabled color for restart button
+  // add in inspirationalText component
+  // add in a noise upon completion? use onComplete callback
   return (
     <>
       <h2
