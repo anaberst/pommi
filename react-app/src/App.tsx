@@ -4,6 +4,7 @@ import { type CountdownApi } from "react-countdown";
 import Controls from "./components/Controls";
 import Timer from "./components/Timer";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import ConfirmModal from "./components/ConfirmModal";
 
 /** TO DO **/
 // add audio upon completion, use onComplete callback
@@ -17,8 +18,6 @@ const App = () => {
   const startColor = "success";
   const pauseColor = "info";
   const restartColor = "light";
-  // const confirmColor = "danger"; this triggers restart AND makes modal disappear
-  // const undoColor = "secondary"; this simply makes the modal disappear
 
   const startText = "Start";
   const pauseText = "Pause";
@@ -33,6 +32,7 @@ const App = () => {
 
   const [isRunning, setIsRunning] = useState(false);
   const [timeLeft, setTimeLeft] = useState(endpoint);
+  const [showModal, setShowModal] = useState(false);
 
   const timerRef = useRef<CountdownApi | null>(null);
 
@@ -60,7 +60,16 @@ const App = () => {
     setIsRunning(false);
   };
 
+  const handleConfirmModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCancelModal = () => {
+    setShowModal(false);
+  };
+
   const handleRestart = () => {
+    setShowModal(false);
     timerRef.current?.stop();
     setIsRunning(false);
     setTimeLeft(Date.now() + minutes * 60000);
@@ -74,7 +83,6 @@ const App = () => {
       >
         Pomodoro Timer
       </h2>
-
       <Timer
         autoStart={false}
         className="d-flex justify-content-center timer-display"
@@ -83,7 +91,6 @@ const App = () => {
         date={timeLeft}
         renderer={timerRenderer}
       />
-
       <div className="d-flex justify-content-center gap-3">
         <Controls
           color={isRunning === false ? startColor : pauseColor}
@@ -93,11 +100,14 @@ const App = () => {
           {isRunning === false ? startText : pauseText}
         </Controls>
 
-        <Controls color={restartColor} onClick={handleRestart}>
+        <Controls color={restartColor} onClick={handleConfirmModal}>
           <i className={restartIcon}></i>
           {restartText}
         </Controls>
       </div>
+      {showModal && (
+        <ConfirmModal onCancel={handleCancelModal} onConfirm={handleRestart} />
+      )}
     </>
   );
 };
