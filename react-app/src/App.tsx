@@ -5,6 +5,14 @@ import Controls from "./components/Controls";
 import Timer from "./components/Timer";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
+/** TO DO **/
+// add audio upon completion, use onComplete callback
+// add inspirationalText component
+// add SettingsModal component with sliders for theme, audio, timer duration
+// add in caching/settings memory?
+// add in spacebar functionality to pause/resume?
+// change start to "resume" when paused?
+
 const App = () => {
   const startColor = "success";
   const pauseColor = "info";
@@ -58,10 +66,6 @@ const App = () => {
     setTimeLeft(Date.now() + minutes * 60000);
   };
 
-  // add in modal confirmation pop-up
-  // add in disabled color for restart button
-  // add in inspirationalText component
-  // add in a noise upon completion? use onComplete callback
   return (
     <>
       <h2
