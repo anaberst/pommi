@@ -9,7 +9,7 @@ interface Props {
 
 const Controls = ({ children, color, onClick }: Props) => {
   return (
-    <button className={"text-nowrap btn btn-" + color} onClick={onClick}>
+    <button className={"text-nowrap btn " + color} onClick={onClick}>
       {children}
     </button>
   );

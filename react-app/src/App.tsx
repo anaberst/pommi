@@ -15,9 +15,10 @@ import ConfirmModal from "./components/ConfirmModal";
 // change start to "resume" when paused?
 
 const App = () => {
-  const startColor = "success";
-  const pauseColor = "info";
-  const restartColor = "light";
+  const startColor = "btn-success";
+  const pauseColor = "btn-info";
+  const restartColor = "btn-light";
+  const restartDisabledColor = "btn-outline-light disabled";
 
   const startText = "Start";
   const pauseText = "Pause";
@@ -33,6 +34,7 @@ const App = () => {
   const [isRunning, setIsRunning] = useState(false);
   const [timeLeft, setTimeLeft] = useState(endpoint);
   const [showModal, setShowModal] = useState(false);
+  const [restartEnabled, setRestartEnabled] = useState(false);
 
   const timerRef = useRef<CountdownApi | null>(null);
 
@@ -53,11 +55,13 @@ const App = () => {
   const handleStart = () => {
     timerRef.current?.start();
     setIsRunning(true);
+    setRestartEnabled(true);
   };
 
   const handlePause = () => {
     timerRef.current?.pause();
     setIsRunning(false);
+    setRestartEnabled(true);
   };
 
   const handleConfirmModal = () => {
@@ -72,6 +76,7 @@ const App = () => {
     setShowModal(false);
     timerRef.current?.stop();
     setIsRunning(false);
+    setRestartEnabled(false);
     setTimeLeft(Date.now() + minutes * 60000);
   };
 
@@ -100,7 +105,10 @@ const App = () => {
           {isRunning === false ? startText : pauseText}
         </Controls>
 
-        <Controls color={restartColor} onClick={handleConfirmModal}>
+        <Controls
+          color={restartEnabled === true ? restartColor : restartDisabledColor}
+          onClick={handleConfirmModal}
+        >
           <i className={restartIcon}></i>
           {restartText}
         </Controls>
