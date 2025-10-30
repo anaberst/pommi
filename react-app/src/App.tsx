@@ -116,6 +116,12 @@ const App = () => {
       {showModal && (
         <ConfirmModal onCancel={handleCancelModal} onConfirm={handleRestart} />
       )}
+      <div
+        className="container d-flex justify-content-center align-items-center"
+        style={{ minHeight: "10vh" }}
+      >
+        Time your work or study session!
+      </div>
     </>
   );
 };
