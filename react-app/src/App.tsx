@@ -5,6 +5,7 @@ import Controls from "./components/Controls";
 import Timer from "./components/Timer";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import ConfirmModal from "./components/ConfirmModal";
+import IllustrationDisplay from "./components/IllustrationDisplay";
 
 /** TO DO **/
 // add audio upon completion, use onComplete callback
@@ -122,6 +123,7 @@ const App = () => {
       >
         Time your work or study session!
       </div>
+      <IllustrationDisplay theme={"study-space"}/>
     </>
   );
 };
