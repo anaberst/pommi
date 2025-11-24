@@ -21,7 +21,7 @@ const Timer = ({
 }: Props) => {
   return (
     <div
-      className={className}
+      className={`${className} d-flex justify-content-center align-items-center`}  
       style={{
         fontSize: "100px",
         fontWeight: "bold",

@@ -14,12 +14,13 @@ import IllustrationDisplay from "./components/IllustrationDisplay";
 // add in caching/settings memory?
 // add in spacebar functionality to pause/resume?
 // change start to "resume" when paused?
+// add functionality to click out of modals
 
 const App = () => {
   const startColor = "btn-success";
   const pauseColor = "btn-info";
   const restartColor = "btn-light";
-  const restartDisabledColor = "btn-outline-light disabled";
+  const restartDisabledColor = "btn-light disabled";
 
   const startText = "Start";
   const pauseText = "Pause";
@@ -82,22 +83,79 @@ const App = () => {
   };
 
   return (
-    <>
-      <h2
-        className="container d-flex justify-content-center align-items-center"
-        style={{ color: "Grey", minHeight: "10vh" }}
+  <div
+  style={{
+    minHeight: "100vh",
+    width: "100%",
+    backgroundColor: "#f2e9ff",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "2rem",
+  }}
+>
+
+    {/* Center column that holds overlay and footer */}
+    <div
+      style={{
+        width: "100%",
+        maxWidth: "650px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+
+  {/* White Overlay */}
+  <div
+  style={{
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    backdropFilter: "blur(8px)",                   
+    borderRadius: "24px",
+    padding: "2.5rem",
+    width: "100%",
+    maxWidth: "625px",
+    boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
+  }}
+>
+
+    <div className="container py-5" style={{ maxWidth: "700px"}}>
+
+      {/* Title */}
+      <h1
+        className="display-4 fw-bold text-center mb-2"
+        style={{
+          fontFamily: "'Quicksand', sans-serif",
+          fontSize: "75px",
+          color: "#2f2c33ce",
+          letterSpacing: "1.5px",
+          textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
+        }}
       >
-        Pomodoro Timer
-      </h2>
-      <Timer
-        autoStart={false}
-        className="d-flex justify-content-center timer-display"
-        controlled={false}
-        countdownRef={timerRef}
-        date={timeLeft}
-        renderer={timerRenderer}
-      />
-      <div className="d-flex justify-content-center gap-3">
+        Pommi
+      </h1>
+
+      {/* Subtitle */}
+      <p
+        className="text-center text-muted mb-4"
+      >
+      The pomodoro timer for students
+      </p>
+
+      {/* Timer */}
+      <div className="d flex justify-content-center mb-4">
+        <Timer
+          autoStart={false}
+          className="timer-display"
+          controlled={false}
+          countdownRef={timerRef}
+          date={timeLeft}
+          renderer={timerRenderer}
+        />
+      </div>
+
+      {/* Controls */}
+      <div className="d-flex justify-content-center gap-3 mb-5">
         <Controls
           color={isRunning === false ? startColor : pauseColor}
           onClick={isRunning === false ? handleStart : handlePause}
@@ -114,17 +172,40 @@ const App = () => {
           {restartText}
         </Controls>
       </div>
+
+      {/* Confirmation Pop-up */}
       {showModal && (
         <ConfirmModal onCancel={handleCancelModal} onConfirm={handleRestart} />
       )}
-      <div
-        className="container d-flex justify-content-center align-items-center"
+
+      {/* Study Fact */}
+      <p
+        className="text-center text-muted mb-4"
         style={{ minHeight: "10vh" }}
       >
         Time your work or study session!
+      </p>
+      
+      {/* Study Illustration */}
+      <div className="d-flex justify-content-center">
+        <IllustrationDisplay theme={"study-space"} />
       </div>
-      <IllustrationDisplay theme={"study-space"}/>
-    </>
+    </div>
+  </div>
+
+    {/* Footer */}
+    <footer
+      style={{
+        marginTop: "1.5rem",
+        color: "#4a4458",
+        fontSize: "0.9rem",
+        opacity: 0.8,
+      }}
+    >
+      © {new Date().getFullYear()} Anastasiya Berst
+    </footer>
+    </div>
+  </div>
   );
 };
 
