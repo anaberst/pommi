@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
@@ -104,6 +105,29 @@ const App = () => {
     loadColor();
   }, []);
 
+    {
+    /* Unit Time Microservice Call */
+  }
+  const [ms, setMs] = useState<number | null>(null);
+  useEffect(() => {
+    async function convertTime() {
+      const value = 25;
+      const unit = "minutes";
+      const desired = "milliseconds";
+
+      const response = await fetch(
+        `http://127.0.0.1:8002/time/${value}/${unit}/${desired}`
+      );
+
+      const text = await response.text();
+      const milliseconds = Number(text); // convert to number
+
+      setMs(milliseconds);
+    }
+
+    convertTime();
+  }, []);
+
   return (
     <div
       style={{
@@ -202,15 +226,12 @@ const App = () => {
             {/* Study Illustration */}
             <div className="d-flex justify-content-center mb-4">
               <IllustrationDisplay theme={"study-space"} />
-            </div>  
-            
+            </div>
+
             {/* Study Fact */}
-            <p
-              className="text-center text-muted mb-4"
-            >
+            <p className="text-center text-muted mb-4">
               Time your work or study session!
             </p>
-
           </div>
         </div>
 
@@ -228,6 +249,7 @@ const App = () => {
       </div>
     </div>
   );
+    const timerDuration = ms;
 };
 
 export default App;
