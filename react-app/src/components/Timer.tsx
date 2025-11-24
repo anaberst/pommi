@@ -23,10 +23,9 @@ const Timer = ({
     <div
       className={`${className} d-flex justify-content-center align-items-center`}  
       style={{
-        fontSize: "100px",
+        fontSize: "125px",
         fontWeight: "bold",
         color: "MediumPurple",
-        minHeight: "10vh",
       }}
     >
       <Countdown

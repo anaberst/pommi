@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useRef } from "react";
+import { useEffect } from "react";
 import { type CountdownApi } from "react-countdown";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import Controls from "./components/Controls";
 import Timer from "./components/Timer";
-import "bootstrap-icons/font/bootstrap-icons.css";
 import ConfirmModal from "./components/ConfirmModal";
 import IllustrationDisplay from "./components/IllustrationDisplay";
 
@@ -82,130 +83,150 @@ const App = () => {
     setTimeLeft(Date.now() + minutes * 60000);
   };
 
-  return (
-  <div
-  style={{
-    minHeight: "100vh",
-    width: "100%",
-    backgroundColor: "#f2e9ff",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: "2rem",
-  }}
->
+  {
+    /* Hex Code Microservice Call */
+  }
+  const backgroundColor = "light-purple";
+  const [hex, setHex] = useState("");
 
-    {/* Center column that holds overlay and footer */}
+  useEffect(() => {
+    async function loadColor() {
+      const response = await fetch(
+        `http://127.0.0.1:8001/color/${backgroundColor}`
+      );
+      let text = await response.text();
+
+      // Remove quotes
+      text = text.replace(/"/g, "");
+
+      setHex(text);
+    }
+    loadColor();
+  }, []);
+
+  return (
     <div
       style={{
+        minHeight: "100vh",
         width: "100%",
-        maxWidth: "650px",
+        backgroundColor: hex,
         display: "flex",
-        flexDirection: "column",
+        justifyContent: "center",
         alignItems: "center",
+        padding: "2rem",
       }}
     >
-
-  {/* White Overlay */}
-  <div
-  style={{
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
-    backdropFilter: "blur(8px)",                   
-    borderRadius: "24px",
-    padding: "2.5rem",
-    width: "100%",
-    maxWidth: "625px",
-    boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
-  }}
->
-
-    <div className="container py-5" style={{ maxWidth: "700px"}}>
-
-      {/* Title */}
-      <h1
-        className="display-4 fw-bold text-center mb-2"
+      {/* Center column that holds overlay and footer */}
+      <div
         style={{
-          fontFamily: "'Quicksand', sans-serif",
-          fontSize: "75px",
-          color: "#2f2c33ce",
-          letterSpacing: "1.5px",
-          textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
+          width: "100%",
+          maxWidth: "650px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
-        Pommi
-      </h1>
-
-      {/* Subtitle */}
-      <p
-        className="text-center text-muted mb-4"
-      >
-      The pomodoro timer for students
-      </p>
-
-      {/* Timer */}
-      <div className="d flex justify-content-center mb-4">
-        <Timer
-          autoStart={false}
-          className="timer-display"
-          controlled={false}
-          countdownRef={timerRef}
-          date={timeLeft}
-          renderer={timerRenderer}
-        />
-      </div>
-
-      {/* Controls */}
-      <div className="d-flex justify-content-center gap-3 mb-5">
-        <Controls
-          color={isRunning === false ? startColor : pauseColor}
-          onClick={isRunning === false ? handleStart : handlePause}
+        {/* White Overlay */}
+        <div
+          style={{
+            backgroundColor: "rgba(255, 255, 255, 0.8)",
+            backdropFilter: "blur(8px)",
+            borderRadius: "24px",
+            padding: "2.5rem",
+            width: "100%",
+            maxWidth: "625px",
+            boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
+          }}
         >
-          <i className={isRunning === false ? startIcon : pauseIcon} />
-          {isRunning === false ? startText : pauseText}
-        </Controls>
+          <div className="container py-5" style={{ maxWidth: "700px" }}>
+            {/* Title */}
+            <h1
+              className="display-4 fw-bold text-center mb-2"
+              style={{
+                fontFamily: "'Quicksand', sans-serif",
+                fontSize: "80px",
+                color: "#2f2c33ce",
+                letterSpacing: "1.5px",
+                textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
+              }}
+            >
+              Pommi
+            </h1>
 
-        <Controls
-          color={restartEnabled === true ? restartColor : restartDisabledColor}
-          onClick={handleConfirmModal}
+            {/* Subtitle */}
+            <p className="text-center text-muted">
+              Time your work or study session!
+            </p>
+
+            {/* Timer */}
+            <div>
+              <Timer
+                autoStart={false}
+                className="timer-display"
+                controlled={false}
+                countdownRef={timerRef}
+                date={timeLeft}
+                renderer={timerRenderer}
+              />
+            </div>
+
+            {/* Controls */}
+            <div className="d-flex justify-content-center gap-3 mb-5">
+              <Controls
+                color={isRunning === false ? startColor : pauseColor}
+                onClick={isRunning === false ? handleStart : handlePause}
+              >
+                <i className={isRunning === false ? startIcon : pauseIcon} />
+                {isRunning === false ? startText : pauseText}
+              </Controls>
+
+              <Controls
+                color={
+                  restartEnabled === true ? restartColor : restartDisabledColor
+                }
+                onClick={handleConfirmModal}
+              >
+                <i className={restartIcon}></i>
+                {restartText}
+              </Controls>
+            </div>
+
+            {/* Confirmation Pop-up */}
+            {showModal && (
+              <ConfirmModal
+                onCancel={handleCancelModal}
+                onConfirm={handleRestart}
+              />
+            )}
+
+            {/* Study Illustration */}
+            <div className="d-flex justify-content-center mb-4">
+              <IllustrationDisplay theme={"study-space"} />
+            </div>  
+            
+            {/* Study Fact */}
+            <p
+              className="text-center text-muted mb-4"
+            >
+              Time your work or study session!
+            </p>
+
+          </div>
+        </div>
+
+        {/* Footer */}
+        <footer
+          style={{
+            marginTop: "1.5rem",
+            color: "#4a4458",
+            fontSize: "0.9rem",
+            opacity: 0.8,
+          }}
         >
-          <i className={restartIcon}></i>
-          {restartText}
-        </Controls>
-      </div>
-
-      {/* Confirmation Pop-up */}
-      {showModal && (
-        <ConfirmModal onCancel={handleCancelModal} onConfirm={handleRestart} />
-      )}
-
-      {/* Study Fact */}
-      <p
-        className="text-center text-muted mb-4"
-        style={{ minHeight: "10vh" }}
-      >
-        Time your work or study session!
-      </p>
-      
-      {/* Study Illustration */}
-      <div className="d-flex justify-content-center">
-        <IllustrationDisplay theme={"study-space"} />
+          © {new Date().getFullYear()} Anastasiya Berst
+        </footer>
       </div>
     </div>
-  </div>
-
-    {/* Footer */}
-    <footer
-      style={{
-        marginTop: "1.5rem",
-        color: "#4a4458",
-        fontSize: "0.9rem",
-        opacity: 0.8,
-      }}
-    >
-      © {new Date().getFullYear()} Anastasiya Berst
-    </footer>
-    </div>
-  </div>
   );
 };
 
