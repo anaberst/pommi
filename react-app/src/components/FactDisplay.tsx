@@ -11,8 +11,8 @@ const FactDisplay = ({ theme }: Props) => {
   useEffect(() => {
     async function fetchFact() {
       const response = await fetch(`http://127.0.0.1:8003/fact/${theme}`);
-      const studyFact = await response.text();
-      setFact(studyFact);
+      const studyFact = await response.json();
+      setFact(studyFact.studyFact);
     }
 
     fetchFact();
@@ -29,7 +29,7 @@ const FactDisplay = ({ theme }: Props) => {
         padding: "1rem 1.25rem",
         boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
         maxWidth: "520px",
-        margin: "0 auto",
+        margin: "50px auto",
         border: "1px solid #eee",
       }}
     >

@@ -163,7 +163,7 @@ const App = () => {
 
             {/* Subtitle */}
             <p className="text-center text-muted">
-              Time your work or study session!
+              Time your study session!
             </p>
 
             {/* Timer */}
@@ -207,13 +207,13 @@ const App = () => {
               />
             )}
 
-            {/* Study Illustration */}
-            <div className="d-flex justify-content-center mb-4">
-              <IllustrationDisplay theme={"study-space"} />
-            </div>
-
             {/* Study Fact */}
             <FactDisplay theme={"study-habit"} />
+
+            {/* Study Illustration */}
+            <div className="d-flex justify-content-center mb-1">
+              <IllustrationDisplay theme={"study-space"} />
+            </div>
           </div>
         </div>
 
