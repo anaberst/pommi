@@ -10,8 +10,9 @@ import FactDisplay from "./components/FactDisplay";
 const App = () => {
   const startColor = "btn-success";
   const pauseColor = "btn-info";
-  const restartColor = "btn-light";
-  const restartDisabledColor = "btn-light disabled";
+  const restartColor = "btn-secondary";
+  const restartDisabledColor = "btn-secondary disabled";
+  const settingsColor = "btn-light";
 
   const startText = "Start";
   const pauseText = "Pause";
@@ -20,14 +21,17 @@ const App = () => {
   const startIcon = "bi bi-caret-right";
   const pauseIcon = "bi bi-pause";
   const restartIcon = "bi bi-arrow-counterclockwise";
+  const settingsIcon = "bi bi-gear";
 
-  const minutes = 25;
-  const endpoint = Date.now() + minutes * 60000;
+  const audio = "./audio.wav";
 
+  const [minutes, setMinutes] = useState(25);
   const [isRunning, setIsRunning] = useState(false);
+  const endpoint = Date.now() + minutes * 60000;
   const [timeLeft, setTimeLeft] = useState(endpoint);
   const [showModal, setShowModal] = useState(false);
   const [restartEnabled, setRestartEnabled] = useState(false);
+  const [audioEnabled, setAudioEnabled] = useState(true);
 
   const timerRef = useRef<CountdownApi | null>(null);
 
@@ -57,6 +61,24 @@ const App = () => {
     setRestartEnabled(true);
   };
 
+  const handleRestart = () => {
+    setShowModal(false);
+    timerRef.current?.stop();
+    setIsRunning(false);
+    setRestartEnabled(false);
+    setTimeLeft(Date.now() + minutes * 60000);
+  };
+
+  const handleComplete = () => {
+    setIsRunning(false);
+    setRestartEnabled(false);
+    setTimeLeft(Date.now() + minutes * 60000);
+
+    if (audioEnabled) {
+      new Audio(audio).play();
+    }
+  };
+
   const handleConfirmModal = () => {
     setShowModal(true);
   };
@@ -65,13 +87,11 @@ const App = () => {
     setShowModal(false);
   };
 
-  const handleRestart = () => {
-    setShowModal(false);
-    timerRef.current?.stop();
-    setIsRunning(false);
-    setRestartEnabled(false);
-    setTimeLeft(Date.now() + minutes * 60000);
-  };
+  const handleSettingsModal = () => {}; // settings modal pop-up
+
+  const handleMinutesChange = () => {}; // minutes in settings modal
+
+  const handleThemeChange = () => {}; // dark/light theme
 
   return (
     <div
@@ -85,6 +105,16 @@ const App = () => {
         padding: "2rem",
       }}
     >
+      {/* Settings Pop-up */}
+      {showModal && (
+        <ConfirmModal onCancel={handleCancelModal} onConfirm={handleRestart} />
+      )}
+
+      {/* Confirmation Pop-up */}
+      {showModal && (
+        <ConfirmModal onCancel={handleCancelModal} onConfirm={handleRestart} />
+      )}
+
       {/* Center column that holds overlay and footer */}
       <div
         style={{
@@ -134,11 +164,12 @@ const App = () => {
                 countdownRef={timerRef}
                 date={timeLeft}
                 renderer={timerRenderer}
+                onComplete={handleComplete}
               />
             </div>
 
-            {/* Controls */}
             <div className="d-flex justify-content-center gap-3 mb-5">
+              {/* Start & Pause Button */}
               <Controls
                 color={isRunning === false ? startColor : pauseColor}
                 onClick={isRunning === false ? handleStart : handlePause}
@@ -147,6 +178,7 @@ const App = () => {
                 {isRunning === false ? startText : pauseText}
               </Controls>
 
+              {/* Restart Button */}
               <Controls
                 color={
                   restartEnabled === true ? restartColor : restartDisabledColor
@@ -156,26 +188,23 @@ const App = () => {
                 <i className={restartIcon}></i>
                 {restartText}
               </Controls>
+
+              {/* Settings Button */}
+              <Controls color={settingsColor} onClick={handleSettingsModal}>
+                <i className={settingsIcon}></i>
+              </Controls>
             </div>
 
-            {/* Confirmation Pop-up */}
-            {showModal && (
-              <ConfirmModal
-                onCancel={handleCancelModal}
-                onConfirm={handleRestart}
-              />
-            )}
-
-            {/* Study Fact */}
+            {/* Fact */}
             <FactDisplay
               fact={
                 "Short breaks during study sessions can help improve focus and prevent burnout."
               }
             />
 
-            {/* Study Illustration */}
+            {/* Illustration */}
             <div className="d-flex justify-content-center mb-1">
-              <IllustrationDisplay illustration={"./illustration.png"} />
+              <IllustrationDisplay illustration={"./illustration-light.png"} />
             </div>
           </div>
         </div>
@@ -199,10 +228,6 @@ const App = () => {
 export default App;
 
 /** TO DO **/
-// add audio upon completion, use onComplete callback
-// add inspirationalText component
 // add SettingsModal component with sliders for theme, audio, timer duration
 // add in caching/settings memory?
-// add in spacebar functionality to pause/resume?
 // change start to "resume" when paused?
-// add functionality to click out of modals

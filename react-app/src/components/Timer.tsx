@@ -8,7 +8,8 @@ interface Props {
   countdownRef: React.RefObject<CountdownApi | null>;
   controlled: boolean;
   date: number;
-  renderer: (props: {minutes: number; seconds: number;}) => React.ReactNode;
+  renderer: (props: { minutes: number; seconds: number }) => React.ReactNode;
+  onComplete: () => void;
 }
 
 const Timer = ({
@@ -17,11 +18,12 @@ const Timer = ({
   controlled,
   countdownRef,
   date,
-  renderer
+  renderer,
+  onComplete,
 }: Props) => {
   return (
     <div
-      className={`${className} d-flex justify-content-center align-items-center`}  
+      className={`${className} d-flex justify-content-center align-items-center`}
       style={{
         fontSize: "125px",
         fontWeight: "bold",
@@ -34,6 +36,7 @@ const Timer = ({
         date={date}
         ref={countdownRef as React.Ref<Countdown>}
         renderer={renderer}
+        onComplete={onComplete}
       />
     </div>
   );

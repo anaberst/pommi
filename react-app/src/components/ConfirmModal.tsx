@@ -23,7 +23,7 @@ const ConfirmModal = ({ onCancel, onConfirm }: Props) => {
             ></button>
           </div>
           <div className="modal-body">
-            <p>This will reset the timer to 25:00. Are you sure?</p>
+            <p>This will reset the timer. Are you sure?</p>
           </div>
           <div className="modal-footer">
             <button
