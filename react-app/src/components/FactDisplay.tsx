@@ -1,23 +1,8 @@
-import { useEffect, useState } from "react";
-
 interface Props {
-  theme: string;
+  fact: string;
 }
 
-/*** Microservice #4 Request via HTTP ***/
-const FactDisplay = ({ theme }: Props) => {
-  const [fact, setFact] = useState("");
-
-  useEffect(() => {
-    async function fetchFact() {
-      const response = await fetch(`http://127.0.0.1:8003/fact/${theme}`);
-      const studyFact = await response.json();
-      setFact(studyFact.studyFact);
-    }
-
-    fetchFact();
-  }, [theme]); // re-run when theme changes
-
+const FactDisplay = ({ fact }: Props) => {
   return (
     <div
       style={{

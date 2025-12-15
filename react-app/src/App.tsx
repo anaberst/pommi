@@ -1,11 +1,6 @@
-/* React imports */
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { type CountdownApi } from "react-countdown";
-
-/* Bootstrap imports */
 import "bootstrap-icons/font/bootstrap-icons.css";
-
-/* App component imports */
 import Controls from "./components/Controls";
 import Timer from "./components/Timer";
 import ConfirmModal from "./components/ConfirmModal";
@@ -13,38 +8,6 @@ import IllustrationDisplay from "./components/IllustrationDisplay";
 import FactDisplay from "./components/FactDisplay";
 
 const App = () => {
-  /*** Microservice #2 Request via HTTP ***/
-  const backgroundColor = "light-purple";
-  const [hex, setHex] = useState("");
-  useEffect(() => {
-    async function loadColor() {
-      const response = await fetch(
-        `http://127.0.0.1:8001/color/${backgroundColor}`
-      );
-      let text = await response.text();
-      text = text.replace(/"/g, "");
-      setHex(text);
-    }
-    loadColor();
-  }, []);
-
-  /*** Microservice #3 Request via HTTP ***/
-  const [ms, setMs] = useState<number | null>(null);
-  useEffect(() => {
-    async function convertTime() {
-      const value = 25;
-      const unit = "minutes";
-      const desired = "milliseconds";
-      const response = await fetch(
-        `http://127.0.0.1:8002/time/${value}/${unit}/${desired}`
-      );
-      const text = await response.text();
-      const milliseconds = Number(text); // convert to number
-      setMs(milliseconds);
-    }
-    convertTime();
-  }, []);
-
   const startColor = "btn-success";
   const pauseColor = "btn-info";
   const restartColor = "btn-light";
@@ -60,8 +23,6 @@ const App = () => {
 
   const minutes = 25;
   const endpoint = Date.now() + minutes * 60000;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const convertedTime = ms;
 
   const [isRunning, setIsRunning] = useState(false);
   const [timeLeft, setTimeLeft] = useState(endpoint);
@@ -117,7 +78,7 @@ const App = () => {
       style={{
         minHeight: "100vh",
         width: "100%",
-        backgroundColor: hex,
+        backgroundColor: "#F2E9FF",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -162,9 +123,7 @@ const App = () => {
             </h1>
 
             {/* Subtitle */}
-            <p className="text-center text-muted">
-              Time your study session!
-            </p>
+            <p className="text-center text-muted">Time your study session!</p>
 
             {/* Timer */}
             <div>
@@ -208,11 +167,15 @@ const App = () => {
             )}
 
             {/* Study Fact */}
-            <FactDisplay theme={"study-habit"} />
+            <FactDisplay
+              fact={
+                "Short breaks during study sessions can help improve focus and prevent burnout."
+              }
+            />
 
             {/* Study Illustration */}
             <div className="d-flex justify-content-center mb-1">
-              <IllustrationDisplay theme={"study-space"} />
+              <IllustrationDisplay illustration={"./illustration.png"} />
             </div>
           </div>
         </div>
