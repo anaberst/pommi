@@ -6,6 +6,7 @@ import Timer from "./components/Timer";
 import ConfirmModal from "./components/ConfirmModal";
 import IllustrationDisplay from "./components/IllustrationDisplay";
 import FactDisplay from "./components/FactDisplay";
+import SettingsModal from "./components/SettingsModal";
 
 const App = () => {
   const startColor = "btn-success";
@@ -30,6 +31,7 @@ const App = () => {
   const endpoint = Date.now() + minutes * 60000;
   const [timeLeft, setTimeLeft] = useState(endpoint);
   const [showModal, setShowModal] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const [restartEnabled, setRestartEnabled] = useState(false);
   const [audioEnabled, setAudioEnabled] = useState(true);
 
@@ -62,7 +64,10 @@ const App = () => {
   };
 
   const handleRestart = () => {
-    setShowModal(false);
+    // if confirmation pop-up is active
+    if (showModal) {
+      setShowModal(false);
+    }
     timerRef.current?.stop();
     setIsRunning(false);
     setRestartEnabled(false);
@@ -71,8 +76,7 @@ const App = () => {
 
   const handleComplete = () => {
     setIsRunning(false);
-    setRestartEnabled(false);
-    setTimeLeft(Date.now() + minutes * 60000);
+    setTimeLeft(0);
 
     if (audioEnabled) {
       new Audio(audio).play();
@@ -87,7 +91,17 @@ const App = () => {
     setShowModal(false);
   };
 
-  const handleSettingsModal = () => {}; // settings modal pop-up
+  const handleShowSettings = () => {
+    setShowSettings(true);
+  };
+
+  const handleDismissSettings = () => {
+    setShowSettings(false);
+  };
+
+  const handleSoundOn = () => {};
+
+  const handleSoundOff = () => {};
 
   const handleMinutesChange = () => {}; // minutes in settings modal
 
@@ -106,8 +120,10 @@ const App = () => {
       }}
     >
       {/* Settings Pop-up */}
-      {showModal && (
-        <ConfirmModal onCancel={handleCancelModal} onConfirm={handleRestart} />
+      {showSettings && (
+        <SettingsModal
+          onCancel={handleDismissSettings}
+        />
       )}
 
       {/* Confirmation Pop-up */}
@@ -171,26 +187,31 @@ const App = () => {
             <div className="d-flex justify-content-center gap-3 mb-5">
               {/* Start & Pause Button */}
               <Controls
-                color={isRunning === false ? startColor : pauseColor}
-                onClick={isRunning === false ? handleStart : handlePause}
+                color={!isRunning ? startColor : pauseColor}
+                onClick={!isRunning ? handleStart : handlePause}
               >
-                <i className={isRunning === false ? startIcon : pauseIcon} />
-                {isRunning === false ? startText : pauseText}
+                <i className={!isRunning ? startIcon : pauseIcon} />
+                {!isRunning ? startText : pauseText}
               </Controls>
 
               {/* Restart Button */}
               <Controls
-                color={
-                  restartEnabled === true ? restartColor : restartDisabledColor
-                }
-                onClick={handleConfirmModal}
+                color={restartEnabled ? restartColor : restartDisabledColor}
+                onClick={() => {
+                  // only prompts confirmation pop-up for unfinished timer
+                  if (timeLeft > 0) {
+                    handleConfirmModal();
+                  } else {
+                    handleRestart();
+                  }
+                }}
               >
                 <i className={restartIcon}></i>
                 {restartText}
               </Controls>
 
               {/* Settings Button */}
-              <Controls color={settingsColor} onClick={handleSettingsModal}>
+              <Controls color={settingsColor} onClick={handleShowSettings}>
                 <i className={settingsIcon}></i>
               </Controls>
             </div>
@@ -230,4 +251,3 @@ export default App;
 /** TO DO **/
 // add SettingsModal component with sliders for theme, audio, timer duration
 // add in caching/settings memory?
-// change start to "resume" when paused?

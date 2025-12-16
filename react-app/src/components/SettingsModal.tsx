@@ -1,9 +1,8 @@
 interface Props {
   onCancel: () => void;
-  onConfirm: () => void;
 }
 
-const ConfirmModal = ({ onCancel, onConfirm }: Props) => {
+const SettingsModal = ({ onCancel }: Props) => {
   return (
     <div
       className="modal show"
@@ -22,17 +21,80 @@ const ConfirmModal = ({ onCancel, onConfirm }: Props) => {
               onClick={onCancel}
             ></button>
           </div>
-          <div className="modal-body">
-            <p>This will reset the timer. Are you sure?</p>
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-danger"
-              onClick={onConfirm}
+
+          {/* Sound Setting */}
+          <div className="form-check form-switch">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="flexSwitchCheckChecked"
+              checked
+            ></input>
+            <label
+              className="form-check-label"
+              htmlFor="flexSwitchCheckChecked"
             >
-              Yes, I'm sure
-            </button>
+              Alarm Sound
+            </label>
+          </div>
+
+          {/* Duration Setting */}
+          <div>Timer Duration</div>
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="flexRadioDefault"
+              id="flexRadioDefault1"
+            ></input>
+            <label className="form-check-label" htmlFor="flexRadioDefault1">
+              5
+            </label>
+          </div>
+
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="flexRadioDefault"
+              id="flexRadioDefault2"
+              checked
+            ></input>
+            <label className="form-check-label" htmlFor="flexRadioDefault2">
+              25
+            </label>
+          </div>
+
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="flexRadioDefault"
+              id="flexRadioDefault1"
+            ></input>
+            <label className="form-check-label" htmlFor="flexRadioDefault1">
+              45
+            </label>
+          </div>
+
+          {/* Theme Setting */}
+          <div className="form-check form-switch">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="flexSwitchCheckChecked"
+            ></input>
+            <label
+              className="form-check-label"
+              htmlFor="flexSwitchCheckChecked"
+            >
+              Dark Mode
+            </label>
+          </div>
+
+          <div className="modal-footer">
             <button
               type="button"
               className="btn btn-secondary"
@@ -48,4 +110,4 @@ const ConfirmModal = ({ onCancel, onConfirm }: Props) => {
   );
 };
 
-export default ConfirmModal;
+export default SettingsModal;
