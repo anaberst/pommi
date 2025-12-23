@@ -1,8 +1,18 @@
 interface Props {
+  audioEnabled: boolean;
+  duration: number;
+  onAudioChange: (enabled: boolean) => void;
   onCancel: () => void;
+  onDurationRequest: (minutes: number) => void;
 }
 
-const SettingsModal = ({ onCancel }: Props) => {
+const SettingsModal = ({
+  audioEnabled,
+  duration,
+  onAudioChange,
+  onCancel,
+  onDurationRequest,
+}: Props) => {
   return (
     <div
       className="modal show"
@@ -29,8 +39,11 @@ const SettingsModal = ({ onCancel }: Props) => {
               type="checkbox"
               role="switch"
               id="flexSwitchCheckChecked"
-              checked
-            ></input>
+              checked={audioEnabled}
+              onChange={(e) => {
+                onAudioChange(e.target.checked);
+              }}
+            />
             <label
               className="form-check-label"
               htmlFor="flexSwitchCheckChecked"
@@ -47,6 +60,11 @@ const SettingsModal = ({ onCancel }: Props) => {
               type="radio"
               name="flexRadioDefault"
               id="flexRadioDefault1"
+              value="5"
+              checked={duration === 5}
+              onChange={(e) => {
+                onDurationRequest(Number(e.target.value));
+              }}
             ></input>
             <label className="form-check-label" htmlFor="flexRadioDefault1">
               5
@@ -59,8 +77,12 @@ const SettingsModal = ({ onCancel }: Props) => {
               type="radio"
               name="flexRadioDefault"
               id="flexRadioDefault2"
-              checked
-            ></input>
+              value="25"
+              checked={duration === 25}
+              onChange={(e) => {
+                onDurationRequest(Number(e.target.value));
+              }}
+            />
             <label className="form-check-label" htmlFor="flexRadioDefault2">
               25
             </label>
@@ -72,7 +94,12 @@ const SettingsModal = ({ onCancel }: Props) => {
               type="radio"
               name="flexRadioDefault"
               id="flexRadioDefault1"
-            ></input>
+              value="45"
+              checked={duration === 45}
+              onChange={(e) => {
+                onDurationRequest(Number(e.target.value));
+              }}
+            />
             <label className="form-check-label" htmlFor="flexRadioDefault1">
               45
             </label>
@@ -85,7 +112,7 @@ const SettingsModal = ({ onCancel }: Props) => {
               type="checkbox"
               role="switch"
               id="flexSwitchCheckChecked"
-            ></input>
+            />
             <label
               className="form-check-label"
               htmlFor="flexSwitchCheckChecked"

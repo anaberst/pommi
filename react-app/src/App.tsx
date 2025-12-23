@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { type CountdownApi } from "react-countdown";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Controls from "./components/Controls";
@@ -30,8 +30,9 @@ const App = () => {
   const [isRunning, setIsRunning] = useState(false);
   const endpoint = Date.now() + minutes * 60000;
   const [timeLeft, setTimeLeft] = useState(endpoint);
-  const [showModal, setShowModal] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [pendingDuration, setPendingDuration] = useState<number | null>(null);
   const [restartEnabled, setRestartEnabled] = useState(false);
   const [audioEnabled, setAudioEnabled] = useState(true);
 
@@ -51,6 +52,13 @@ const App = () => {
     );
   };
 
+  useEffect(() => {
+    timerRef.current?.stop();
+    setIsRunning(false);
+    setRestartEnabled(false);
+    setTimeLeft(Date.now() + minutes * 60000);
+  }, [minutes]);
+
   const handleStart = () => {
     timerRef.current?.start();
     setIsRunning(true);
@@ -65,8 +73,8 @@ const App = () => {
 
   const handleRestart = () => {
     // if confirmation pop-up is active
-    if (showModal) {
-      setShowModal(false);
+    if (showConfirm) {
+      setShowConfirm(false);
     }
     timerRef.current?.stop();
     setIsRunning(false);
@@ -84,28 +92,43 @@ const App = () => {
   };
 
   const handleConfirmModal = () => {
-    setShowModal(true);
+    setShowConfirm(true);
   };
 
-  const handleCancelModal = () => {
-    setShowModal(false);
+  const handleCancelConfirm = () => {
+    setPendingDuration(null);
+    setShowConfirm(false);
   };
 
   const handleShowSettings = () => {
     setShowSettings(true);
   };
 
-  const handleDismissSettings = () => {
-    setShowSettings(false);
+  const handleAudioChange = (audioEnabled: boolean) => {
+    setAudioEnabled(audioEnabled);
   };
 
-  const handleSoundOn = () => {};
+  const handleDurationRequest = (newMinutes: number) => {
+    if (isRunning || timeLeft > 0) {
+      setPendingDuration(newMinutes);
+      setShowConfirm(true);
+    } else {
+      applyDurationChange(newMinutes);
+    }
+  };
 
-  const handleSoundOff = () => {};
+  const applyDurationChange = (newMinutes: number) => {
+    setMinutes(newMinutes);
+    setTimeLeft(Date.now() + newMinutes * 60000);
+  };
 
-  const handleMinutesChange = () => {}; // minutes in settings modal
-
-  const handleThemeChange = () => {}; // dark/light theme
+  const handleConfirmDuration = () => {
+    if (pendingDuration !== null) {
+      applyDurationChange(pendingDuration);
+    }
+    setPendingDuration(null);
+    setShowConfirm(false);
+  };
 
   return (
     <div
@@ -122,13 +145,20 @@ const App = () => {
       {/* Settings Pop-up */}
       {showSettings && (
         <SettingsModal
-          onCancel={handleDismissSettings}
+          audioEnabled={audioEnabled}
+          duration={minutes}
+          onAudioChange={handleAudioChange}
+          onCancel={() => setShowSettings(false)}
+          onDurationRequest={handleDurationRequest}
         />
       )}
 
       {/* Confirmation Pop-up */}
-      {showModal && (
-        <ConfirmModal onCancel={handleCancelModal} onConfirm={handleRestart} />
+      {showConfirm && (
+        <ConfirmModal
+          onCancel={handleCancelConfirm}
+          onConfirm={handleConfirmDuration}
+        />
       )}
 
       {/* Center column that holds overlay and footer */}
@@ -249,5 +279,5 @@ const App = () => {
 export default App;
 
 /** TO DO **/
-// add SettingsModal component with sliders for theme, audio, timer duration
-// add in caching/settings memory?
+// light/dark theme
+// add in caching/settings memory
