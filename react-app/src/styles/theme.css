@@ -1,0 +1,157 @@
+.theme-light {
+    --app-bg: #F2E9FF;
+
+    --surface-primary: rgba(255, 255, 255, 0.85);
+    --surface-secondary: rgba(255, 255, 255, 0.9);
+
+    --text-primary: #2F2C33;
+    --text-secondary: #6C6680;
+
+    --border-subtle: #EEE;
+
+    --shadow-soft: 0 2px 10px rgba(0, 0, 0, 0.08);
+    --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.08);
+
+    --accent-warning: #FFCA2C;
+}
+
+.theme-dark {
+    --app-bg: #121212;
+
+    --surface-primary: rgba(30, 30, 30, 0.9);
+    --surface-secondary: rgba(40, 40, 40, 0.95);
+
+    --text-primary: #F1F1F1;
+    --text-secondary: #B5B0C9;
+
+    --border-subtle: #2C2C2C;
+
+    --shadow-soft: 0 2px 10px rgba(0, 0, 0, 0.6);
+    --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.6);
+
+    --accent-warning: #FFD966;
+}
+
+.theme-light .modal-content {
+    background-color: var(--surface-primary);
+    color: var(--text-primary);
+    border-radius: 16px;
+}
+
+.theme-dark .modal-content {
+    background-color: var(--surface-primary);
+    color: var(--text-primary);
+}
+
+.theme-light .modal.show {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.theme-dark .modal.show {
+    background-color: rgba(0, 0, 0, 0.65);
+}
+
+.theme-light .btn-success {
+    --bs-btn-bg: #198754;
+    --bs-btn-border-color: #198754;
+    --bs-btn-hover-bg: #157347;
+    --bs-btn-hover-border-color: #146c43;
+    --bs-btn-color: #fff;
+}
+
+.theme-dark .btn-success {
+  --bs-btn-bg: #2fbf71;
+  --bs-btn-border-color: #2fbf71;
+  --bs-btn-hover-bg: #28a965;
+  --bs-btn-hover-border-color: #239a5b;
+  --bs-btn-color: #0f0f0f;
+}
+
+.theme-light .btn-info {
+  --bs-btn-bg: #0dcaf0;
+  --bs-btn-border-color: #0dcaf0;
+  --bs-btn-hover-bg: #31d2f2;
+  --bs-btn-color: #000;
+}
+
+.theme-dark .btn-info {
+  --bs-btn-bg: #4dd0e1;
+  --bs-btn-border-color: #4dd0e1;
+  --bs-btn-hover-bg: #26c6da;
+  --bs-btn-color: #0f0f0f;
+}
+
+.theme-light .btn-secondary {
+  --bs-btn-bg: #6c757d;
+  --bs-btn-border-color: #6c757d;
+}
+
+.theme-dark .btn-secondary {
+  --bs-btn-bg: #9e9e9e;
+  --bs-btn-border-color: #9e9e9e;
+  --bs-btn-color: #121212;
+}
+
+.theme-light .btn-light {
+  --bs-btn-bg: #f8f9fa;
+  --bs-btn-border-color: #f8f9fa;
+}
+
+.theme-dark .btn-light {
+  --bs-btn-bg: #2c2c2c;
+  --bs-btn-border-color: #2c2c2c;
+  --bs-btn-color: #f1f1f1;
+}
+
+.timer {
+    font-size: 125px;
+    font-weight: bold;
+    color: MediumPurple;
+}
+
+.fact-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    background-color: var(--surface-secondary);
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    padding: 1rem 1.25rem;
+    max-width: 520px;
+    margin: 50px auto;
+}
+
+.fact-icon {
+    color: var(--accent-warning);
+    font-size: 1.6rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.fact-title {
+    color: var(--text-primary);
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.fact-text {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.illustration-wrapper {
+    color: var(--text-secondary);
+}
+
+.title {
+  font-family: "Quicksand", sans-serif;
+  font-size: 80px;
+  letter-spacing: 1.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  color: var(--text-primary);
+}
+
+.subtitle {
+  color: var(--text-secondary);
+}

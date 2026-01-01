@@ -23,12 +23,7 @@ const Timer = ({
 }: Props) => {
   return (
     <div
-      className={`${className} d-flex justify-content-center align-items-center`}
-      style={{
-        fontSize: "125px",
-        fontWeight: "bold",
-        color: "MediumPurple",
-      }}
+      className={`${className} d-flex justify-content-center align-items-center timer`}
     >
       <Countdown
         autoStart={autoStart}

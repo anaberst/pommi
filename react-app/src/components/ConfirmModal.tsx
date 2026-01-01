@@ -5,11 +5,7 @@ interface Props {
 
 const ConfirmModal = ({ onCancel, onConfirm }: Props) => {
   return (
-    <div
-      className="modal show"
-      tabIndex={-1}
-      style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
-    >
+    <div className="modal show" tabIndex={-1} style={{ display: "block" }}>
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">

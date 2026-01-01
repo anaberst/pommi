@@ -1,24 +1,24 @@
 interface Props {
   audioEnabled: boolean;
+  dark: boolean;
   duration: number;
   onAudioChange: (enabled: boolean) => void;
   onCancel: () => void;
+  onColorChange: (dark: boolean) => void;
   onDurationRequest: (minutes: number) => void;
 }
 
 const SettingsModal = ({
   audioEnabled,
+  dark,
   duration,
   onAudioChange,
   onCancel,
+  onColorChange,
   onDurationRequest,
 }: Props) => {
   return (
-    <div
-      className="modal show"
-      tabIndex={-1}
-      style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
-    >
+    <div className="modal show" tabIndex={-1} style={{ display: "block" }}>
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
@@ -112,6 +112,10 @@ const SettingsModal = ({
               type="checkbox"
               role="switch"
               id="flexSwitchCheckChecked"
+              checked={dark}
+              onChange={(e) => {
+                onColorChange(e.target.checked);
+              }}
             />
             <label
               className="form-check-label"

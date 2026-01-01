@@ -3,7 +3,17 @@ interface Props {
 }
 
 const IllustrationDisplay = ({ illustration }: Props) => {
-  return <div className="text-center">{<img src={illustration} />}</div>;
+  return (
+    <div className="text-center illustration-wrapper">
+      {
+        <img
+          src={illustration}
+          alt="Study Supplies Illustration"
+          className="img-fluid"
+        />
+      }
+    </div>
+  );
 };
 
 export default IllustrationDisplay;

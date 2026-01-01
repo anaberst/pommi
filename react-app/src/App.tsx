@@ -1,6 +1,11 @@
+import "bootstrap-icons/font/bootstrap-icons.css";
+import "./styles/app-layout.css";
+import "./styles/theme.css";
+import audio from "./assets/audio.wav";
+import illustrationLight from "./assets/illustration-light.png";
+import illustrationDark from "./assets/illustration-dark.png";
 import { useEffect, useRef, useState } from "react";
 import { type CountdownApi } from "react-countdown";
-import "bootstrap-icons/font/bootstrap-icons.css";
 import Controls from "./components/Controls";
 import Timer from "./components/Timer";
 import ConfirmModal from "./components/ConfirmModal";
@@ -9,11 +14,11 @@ import FactDisplay from "./components/FactDisplay";
 import SettingsModal from "./components/SettingsModal";
 
 const App = () => {
-  const startColor = "btn-success";
-  const pauseColor = "btn-info";
-  const restartColor = "btn-secondary";
-  const restartDisabledColor = "btn-secondary disabled";
-  const settingsColor = "btn-light";
+  const startClass = "btn-success";
+  const pauseClass = "btn-info";
+  const restartClass = "btn-secondary";
+  const restartDisabledClass = "btn-secondary disabled";
+  const settingsClass = "btn-light";
 
   const startText = "Start";
   const pauseText = "Pause";
@@ -24,8 +29,6 @@ const App = () => {
   const restartIcon = "bi bi-arrow-counterclockwise";
   const settingsIcon = "bi bi-gear";
 
-  const audio = "./audio.wav";
-
   const [minutes, setMinutes] = useState(25);
   const [isRunning, setIsRunning] = useState(false);
   const endpoint = Date.now() + minutes * 60000;
@@ -35,6 +38,9 @@ const App = () => {
   const [pendingDuration, setPendingDuration] = useState<number | null>(null);
   const [restartEnabled, setRestartEnabled] = useState(false);
   const [audioEnabled, setAudioEnabled] = useState(true);
+  const [dark, setDark] = useState(false);
+
+  const illustration = dark ? illustrationDark : illustrationLight;
 
   const timerRef = useRef<CountdownApi | null>(null);
 
@@ -127,150 +133,115 @@ const App = () => {
       applyDurationChange(pendingDuration);
     }
     setPendingDuration(null);
+    setTimeLeft(Date.now() + minutes * 60000);
     setShowConfirm(false);
   };
 
+  const handleColorChange = (dark: boolean) => {
+    setDark(dark);
+  };
+
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        width: "100%",
-        backgroundColor: "#F2E9FF",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "2rem",
-      }}
-    >
-      {/* Settings Pop-up */}
-      {showSettings && (
-        <SettingsModal
-          audioEnabled={audioEnabled}
-          duration={minutes}
-          onAudioChange={handleAudioChange}
-          onCancel={() => setShowSettings(false)}
-          onDurationRequest={handleDurationRequest}
-        />
-      )}
+    <div className={dark ? "theme-dark" : "theme-light"}>
+      <div className="app-root">
+        {/* Settings Pop-up */}
+        {showSettings && (
+          <SettingsModal
+            audioEnabled={audioEnabled}
+            dark={dark}
+            duration={minutes}
+            onAudioChange={handleAudioChange}
+            onCancel={() => setShowSettings(false)}
+            onColorChange={handleColorChange}
+            onDurationRequest={handleDurationRequest}
+          />
+        )}
 
-      {/* Confirmation Pop-up */}
-      {showConfirm && (
-        <ConfirmModal
-          onCancel={handleCancelConfirm}
-          onConfirm={handleConfirmDuration}
-        />
-      )}
+        {/* Confirmation Pop-up */}
+        {showConfirm && (
+          <ConfirmModal
+            onCancel={handleCancelConfirm}
+            onConfirm={handleConfirmDuration}
+          />
+        )}
 
-      {/* Center column that holds overlay and footer */}
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "650px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        {/* White Overlay */}
-        <div
-          style={{
-            backgroundColor: "rgba(255, 255, 255, 0.8)",
-            backdropFilter: "blur(8px)",
-            borderRadius: "24px",
-            padding: "2.5rem",
-            width: "100%",
-            maxWidth: "625px",
-            boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
-          }}
-        >
-          <div className="container py-5" style={{ maxWidth: "700px" }}>
-            {/* Title */}
-            <h1
-              className="display-4 fw-bold text-center mb-2"
-              style={{
-                fontFamily: "'Quicksand', sans-serif",
-                fontSize: "80px",
-                color: "#2f2c33ce",
-                letterSpacing: "1.5px",
-                textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
-              }}
-            >
-              Pommi
-            </h1>
+        {/* Center column that holds overlay and footer */}
+        <div className="app-column">
+          {/* White Overlay */}
+          <div className="app-card">
+            <div className="container py-5 app-content">
+              {/* Title */}
+              <h1 className="title display-4 fw-bold text-center mb-2">
+                Pommi
+              </h1>
 
-            {/* Subtitle */}
-            <p className="text-center text-muted">Time your study session!</p>
+              {/* Subtitle */}
+              <p className="subtitle text-center">Time your study session!</p>
 
-            {/* Timer */}
-            <div>
-              <Timer
-                autoStart={false}
-                className="timer-display"
-                controlled={false}
-                countdownRef={timerRef}
-                date={timeLeft}
-                renderer={timerRenderer}
-                onComplete={handleComplete}
+              {/* Timer */}
+              <div>
+                <Timer
+                  autoStart={false}
+                  className="timer-display"
+                  controlled={false}
+                  countdownRef={timerRef}
+                  date={timeLeft}
+                  renderer={timerRenderer}
+                  onComplete={handleComplete}
+                />
+              </div>
+
+              <div className="d-flex justify-content-center gap-3 mb-5">
+                {/* Start & Pause Button */}
+                <Controls
+                  color={!isRunning ? startClass : pauseClass}
+                  onClick={!isRunning ? handleStart : handlePause}
+                >
+                  <i className={!isRunning ? startIcon : pauseIcon} />
+                  {!isRunning ? startText : pauseText}
+                </Controls>
+
+                {/* Restart Button */}
+                <Controls
+                  color={restartEnabled ? restartClass : restartDisabledClass}
+                  onClick={() => {
+                    // only prompts confirmation pop-up for unfinished timer
+                    if (timeLeft > 0) {
+                      handleConfirmModal();
+                    } else {
+                      handleRestart();
+                    }
+                  }}
+                >
+                  <i className={restartIcon}></i>
+                  {restartText}
+                </Controls>
+
+                {/* Settings Button */}
+                <Controls color={settingsClass} onClick={handleShowSettings}>
+                  <i className={settingsIcon}></i>
+                </Controls>
+              </div>
+
+              {/* Fact */}
+              <FactDisplay
+                fact={
+                  "Short breaks during study sessions can help improve focus and prevent burnout."
+                }
               />
-            </div>
 
-            <div className="d-flex justify-content-center gap-3 mb-5">
-              {/* Start & Pause Button */}
-              <Controls
-                color={!isRunning ? startColor : pauseColor}
-                onClick={!isRunning ? handleStart : handlePause}
-              >
-                <i className={!isRunning ? startIcon : pauseIcon} />
-                {!isRunning ? startText : pauseText}
-              </Controls>
-
-              {/* Restart Button */}
-              <Controls
-                color={restartEnabled ? restartColor : restartDisabledColor}
-                onClick={() => {
-                  // only prompts confirmation pop-up for unfinished timer
-                  if (timeLeft > 0) {
-                    handleConfirmModal();
-                  } else {
-                    handleRestart();
-                  }
-                }}
-              >
-                <i className={restartIcon}></i>
-                {restartText}
-              </Controls>
-
-              {/* Settings Button */}
-              <Controls color={settingsColor} onClick={handleShowSettings}>
-                <i className={settingsIcon}></i>
-              </Controls>
-            </div>
-
-            {/* Fact */}
-            <FactDisplay
-              fact={
-                "Short breaks during study sessions can help improve focus and prevent burnout."
-              }
-            />
-
-            {/* Illustration */}
-            <div className="d-flex justify-content-center mb-1">
-              <IllustrationDisplay illustration={"./illustration-light.png"} />
+              {/* Illustration */}
+              <div className="d-flex justify-content-center mb-1">
+                <IllustrationDisplay illustration={illustration} />
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Footer */}
-        <footer
-          style={{
-            marginTop: "1.5rem",
-            color: "#4a4458",
-            fontSize: "0.9rem",
-            opacity: 0.8,
-          }}
-        >
-          © {new Date().getFullYear()} Anastasiya Berst
-        </footer>
+          {/* Footer */}
+          <footer className="app-footer">
+            © {new Date().getFullYear()} Anastasiya Berst
+          </footer>
+        </div>
       </div>
     </div>
   );
@@ -279,5 +250,4 @@ const App = () => {
 export default App;
 
 /** TO DO **/
-// light/dark theme
 // add in caching/settings memory
