@@ -32,108 +32,76 @@ const SettingsModal = ({
             ></button>
           </div>
 
-          {/* Sound Setting */}
-          <div className="form-check form-switch">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              role="switch"
-              id="flexSwitchCheckChecked"
-              checked={audioEnabled}
-              onChange={(e) => {
-                onAudioChange(e.target.checked);
-              }}
-            />
-            <label
-              className="form-check-label"
-              htmlFor="flexSwitchCheckChecked"
-            >
-              Alarm Sound
-            </label>
-          </div>
+          <div className="modal-body px-4">
+            {/* Sound */}
+            <div className="form-check form-switch  mb-4">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id="flexSwitchCheckChecked"
+                checked={audioEnabled}
+                onChange={(e) => {
+                  onAudioChange(e.target.checked);
+                }}
+              />
+              <label className="form-check-label" htmlFor="audioSwitch">
+                Alarm Sound
+              </label>
+            </div>
 
-          {/* Duration Setting */}
-          <div>Timer Duration</div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="flexRadioDefault"
-              id="flexRadioDefault1"
-              value="5"
-              checked={duration === 5}
-              onChange={(e) => {
-                onDurationRequest(Number(e.target.value));
-              }}
-            ></input>
-            <label className="form-check-label" htmlFor="flexRadioDefault1">
-              5
-            </label>
-          </div>
+            {/* Duration */}
+            <div className="mb-4">
+              <div className="fw-semibold mb-2">Timer Duration</div>
+              {[5, 25, 45].map((value) => (
+                <div className="form-check" key={value}>
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="duration"
+                    id={`duration-${value}`}
+                    value={value}
+                    checked={duration === value}
+                    onChange={(e) => {
+                      onDurationRequest(Number(e.target.value));
+                    }}
+                  ></input>
+                  <label
+                    className="form-check-label"
+                    htmlFor={`duration-${value}`}
+                  >
+                    {value} minutes
+                  </label>
+                </div>
+              ))}
+            </div>
 
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="flexRadioDefault"
-              id="flexRadioDefault2"
-              value="25"
-              checked={duration === 25}
-              onChange={(e) => {
-                onDurationRequest(Number(e.target.value));
-              }}
-            />
-            <label className="form-check-label" htmlFor="flexRadioDefault2">
-              25
-            </label>
-          </div>
+            {/* Theme */}
+            <div className="form-check form-switch">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="themeSwitch"
+                checked={dark}
+                onChange={(e) => {
+                  onColorChange(e.target.checked);
+                }}
+              />
+              <label className="form-check-label" htmlFor="themeSwitch">
+                Dark mode
+              </label>
+            </div>
 
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="flexRadioDefault"
-              id="flexRadioDefault1"
-              value="45"
-              checked={duration === 45}
-              onChange={(e) => {
-                onDurationRequest(Number(e.target.value));
-              }}
-            />
-            <label className="form-check-label" htmlFor="flexRadioDefault1">
-              45
-            </label>
-          </div>
-
-          {/* Theme Setting */}
-          <div className="form-check form-switch">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              role="switch"
-              id="flexSwitchCheckChecked"
-              checked={dark}
-              onChange={(e) => {
-                onColorChange(e.target.checked);
-              }}
-            />
-            <label
-              className="form-check-label"
-              htmlFor="flexSwitchCheckChecked"
-            >
-              Dark Mode
-            </label>
-          </div>
-
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-bs-dismiss="modal"
-              onClick={onCancel}
-            >
-              Go back
-            </button>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+                onClick={onCancel}
+              >
+                Go back
+              </button>
+            </div>
           </div>
         </div>
       </div>
