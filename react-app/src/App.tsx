@@ -29,7 +29,32 @@ const App = () => {
   const restartIcon = "bi bi-arrow-counterclockwise";
   const settingsIcon = "bi bi-gear";
 
-  const [minutes, setMinutes] = useState(25);
+  {
+    /* persist user preferences for audio, theme, timer duration */
+  }
+  const getBoolean = (key: string, defaultValue: boolean) => {
+    const stored = localStorage.getItem(key);
+    return stored === null ? defaultValue : stored === "true";
+  };
+  const getNumber = (key: string, defaultValue: number) => {
+    const stored = localStorage.getItem(key);
+    return stored === null ? defaultValue : Number(stored);
+  };
+  const [audioEnabled, setAudioEnabled] = useState(() =>
+    getBoolean("audioEnabled", true)
+  );
+  const [dark, setDark] = useState(() => getBoolean("dark", false));
+  const [minutes, setMinutes] = useState(() => getNumber("duration", 25));
+  useEffect(() => {
+    localStorage.setItem("audioEnabled", String(audioEnabled));
+  }, [audioEnabled]);
+  useEffect(() => {
+    localStorage.setItem("dark", String(dark));
+  }, [dark]);
+  useEffect(() => {
+    localStorage.setItem("duration", String(minutes));
+  }, [minutes]);
+
   const [isRunning, setIsRunning] = useState(false);
   const endpoint = Date.now() + minutes * 60000;
   const [timeLeft, setTimeLeft] = useState(endpoint);
@@ -37,8 +62,6 @@ const App = () => {
   const [showSettings, setShowSettings] = useState(false);
   const [pendingDuration, setPendingDuration] = useState<number | null>(null);
   const [restartEnabled, setRestartEnabled] = useState(false);
-  const [audioEnabled, setAudioEnabled] = useState(true);
-  const [dark, setDark] = useState(false);
 
   const illustration = dark ? illustrationDark : illustrationLight;
 
@@ -248,6 +271,3 @@ const App = () => {
 };
 
 export default App;
-
-/** TO DO **/
-// add in caching/settings memory
