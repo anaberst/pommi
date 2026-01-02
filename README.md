@@ -34,11 +34,11 @@ pommi/
 │            ├── audio.wav               # Timer completion audio track
 │            ├── icon.png                # Browser tab icon
 │            ├── illustration-light.png  # Light mode illustration
-│            ├── illustration-dark.png   # Light mode illustration
+│            ├── illustration-dark.png   # Dark mode illustration
 │        └── components/                 
 │            ├── ConfirmModal.tsx        # Confirmation pop-up component
 │            ├── Controls.tsx            # Buttons component
-│            ├── FactDisplay.tsx         # Fact display component
+│            ├── FactDisplay.tsx         # Fact component
 │            ├── IllustrationDisplay.tsx # Illustration component
 │            ├── SettingsModal.tsx       # Settings pop-up component
 │            ├── Timer.tsx               # Timer component
