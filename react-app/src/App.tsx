@@ -1,17 +1,16 @@
-import "bootstrap-icons/font/bootstrap-icons.css";
-import "./styles/app-layout.css";
-import "./styles/theme.css";
-import audio from "./assets/audio.wav";
-import illustrationLight from "./assets/illustration-light.png";
-import illustrationDark from "./assets/illustration-dark.png";
 import { useEffect, useRef, useState } from "react";
 import { type CountdownApi } from "react-countdown";
+
 import Controls from "./components/Controls";
 import Timer from "./components/Timer";
 import ConfirmModal from "./components/ConfirmModal";
 import IllustrationDisplay from "./components/IllustrationDisplay";
 import FactDisplay from "./components/FactDisplay";
 import SettingsModal from "./components/SettingsModal";
+
+import audio from "./assets/audio.wav";
+import illustrationLight from "./assets/illustration-light.png";
+import illustrationDark from "./assets/illustration-dark.png";
 
 const App = () => {
   const startClass = "btn-success";
@@ -194,9 +193,7 @@ const App = () => {
           <div className="app-card">
             <div className="container py-5 app-content">
               {/* Title */}
-              <h1 className="title display-4 fw-bold text-center mb-2">
-                Pommi
-              </h1>
+              <h1 className="title fw-bold text-center mb-2">Pommi</h1>
 
               {/* Subtitle */}
               <p className="subtitle text-center">Time your study session!</p>
