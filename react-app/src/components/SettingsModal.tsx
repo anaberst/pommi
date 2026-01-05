@@ -46,13 +46,13 @@ const SettingsModal = ({
                 }}
               />
               <label className="form-check-label" htmlFor="audioSwitch">
-                Alarm Sound
+                Alarm sound
               </label>
             </div>
 
             {/* Duration */}
             <div className="mb-4">
-              <div className="fw-semibold mb-2">Timer Duration</div>
+              <div className="fw-semibold mb-2">Duration</div>
               {[5, 25, 45].map((value) => (
                 <div className="form-check" key={value}>
                   <input
@@ -88,7 +88,7 @@ const SettingsModal = ({
                 }}
               />
               <label className="form-check-label" htmlFor="themeSwitch">
-                Dark Mode
+                Dark mode
               </label>
             </div>
 
