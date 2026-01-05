@@ -24,6 +24,7 @@
   width: 100%;
   max-width: 625px;
   box-shadow: var(--shadow-medium);
+  overflow-x: hidden;
 }
 
 .app-footer {
