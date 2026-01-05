@@ -88,7 +88,7 @@ const SettingsModal = ({
                 }}
               />
               <label className="form-check-label" htmlFor="themeSwitch">
-                Dark mode
+                Dark Mode
               </label>
             </div>
 
